@@ -1,0 +1,36 @@
+[package]
+name = "a-client"
+version = "0.1.0"
+authors = [
+    "Alexey Yu. yugov <alx.yug@gmail.com>",
+]
+edition = "2021"
+resolver = "2"
+
+[[bin]]
+name = "a-client"
+harness = false # We can't use the default rust libtest harness for a crosscompile target
+
+[profile.release]
+opt-level = "s"
+
+[profile.dev]
+debug     = true # Symbols are nice and they don't increase the size on Flash
+opt-level = "z"
+
+[dependencies]
+esp-idf-hal  = { version = "*" }
+heapless     = { version = "*" }
+anyhow       = { version = "*"}
+embedded-svc = { version = "*"}
+log          = { version = "*", default-features = false }
+esp-idf-svc  = { version = "*", features = ["alloc"]}
+esp-idf-sys  = { version = "*"}
+toml-cfg     = { version = "*"}
+
+[build-dependencies]
+embuild  = { version = "*"}
+toml-cfg = { version = "*"}
+
+[[package.metadata.esp-idf-sys.extra_components]]
+remote_component = { name = "espressif/esp_websocket_client", version = "1.2.3" }
